@@ -29,11 +29,11 @@ class CameraPosition {
   ///
   /// 主要在插件内部使用
   dynamic toMap() => <String, dynamic>{
-        'bearing': bearing,
-        'target': target.toJson(),
-        'tilt': tilt,
-        'zoom': zoom,
-      };
+    'bearing': bearing,
+    'target': target.toJson(),
+    'tilt': tilt,
+    'zoom': zoom,
+  };
 
   /// 从Map转换成[CameraPosition]
   ///
@@ -66,7 +66,7 @@ class CameraPosition {
   }
 
   @override
-  int get hashCode => hashValues(bearing, target, tilt, zoom);
+  int get hashCode => Object.hash(bearing, target, tilt, zoom);
 
   @override
   String toString() =>
@@ -81,9 +81,10 @@ class CameraUpdate {
   ///
   ///主要用于改变地图的中心点、缩放级别、倾斜角、角度等信息
   static CameraUpdate newCameraPosition(CameraPosition cameraPosition) {
-    return CameraUpdate._(
-      <dynamic>['newCameraPosition', cameraPosition.toMap()],
-    );
+    return CameraUpdate._(<dynamic>[
+      'newCameraPosition',
+      cameraPosition.toMap(),
+    ]);
   }
 
   ///移动到一个新的位置点[latLng]
@@ -108,9 +109,7 @@ class CameraUpdate {
   ///
   /// 主要用于同时改变中心点和缩放级别
   static CameraUpdate newLatLngZoom(LatLng latLng, double zoom) {
-    return CameraUpdate._(
-      <dynamic>['newLatLngZoom', latLng.toJson(), zoom],
-    );
+    return CameraUpdate._(<dynamic>['newLatLngZoom', latLng.toJson(), zoom]);
   }
 
   /// 按照指定到像素点[dx]和[dy]移动地图中心点
@@ -121,9 +120,7 @@ class CameraUpdate {
   ///
   /// 返回包含x，y方向上移动像素数的cameraUpdate对象。
   static CameraUpdate scrollBy(double dx, double dy) {
-    return CameraUpdate._(
-      <dynamic>['scrollBy', dx, dy],
-    );
+    return CameraUpdate._(<dynamic>['scrollBy', dx, dy]);
   }
 
   /// 创建一个在当前地图显示的级别基础上加1的CameraUpdate对象

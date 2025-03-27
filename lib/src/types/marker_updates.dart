@@ -29,24 +29,27 @@ class MarkerUpdates {
       return currentMarkers[id]!;
     }
 
-    final Set<String> _markerIdsToRemove =
-        prevMarkerIds.difference(currentMarkerIds);
+    final Set<String> _markerIdsToRemove = prevMarkerIds.difference(
+      currentMarkerIds,
+    );
 
-    final Set<Marker> _markersToAdd = currentMarkerIds
-        .difference(prevMarkerIds)
-        .map(idToCurrentMarker)
-        .toSet();
+    final Set<Marker> _markersToAdd =
+        currentMarkerIds
+            .difference(prevMarkerIds)
+            .map(idToCurrentMarker)
+            .toSet();
 
     bool hasChanged(Marker current) {
       final Marker? previous = previousMarkers[current.id];
       return current != previous;
     }
 
-    final Set<Marker> _markersToChange = currentMarkerIds
-        .intersection(prevMarkerIds)
-        .map(idToCurrentMarker)
-        .where(hasChanged)
-        .toSet();
+    final Set<Marker> _markersToChange =
+        currentMarkerIds
+            .intersection(prevMarkerIds)
+            .map(idToCurrentMarker)
+            .where(hasChanged)
+            .toSet();
 
     markersToAdd = _markersToAdd;
     markerIdsToRemove = _markerIdsToRemove;
@@ -82,7 +85,7 @@ class MarkerUpdates {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    if(other is !MarkerUpdates) return false;
+    if (other is! MarkerUpdates) return false;
     final MarkerUpdates typedOther = other;
     return setEquals(markersToAdd, typedOther.markersToAdd) &&
         setEquals(markerIdsToRemove, typedOther.markerIdsToRemove) &&
@@ -91,7 +94,7 @@ class MarkerUpdates {
 
   @override
   int get hashCode =>
-      hashValues(markersToAdd, markerIdsToRemove, markersToChange);
+      Object.hash(markersToAdd, markerIdsToRemove, markersToChange);
 
   @override
   String toString() {

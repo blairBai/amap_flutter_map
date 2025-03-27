@@ -31,24 +31,27 @@ class PolygonUpdates {
       return currentPolygons[id]!;
     }
 
-    final Set<String> _polygonIdsToRemove =
-        prevPolygonIds.difference(currentPolygonIds);
+    final Set<String> _polygonIdsToRemove = prevPolygonIds.difference(
+      currentPolygonIds,
+    );
 
-    final Set<Polygon> _polygonsToAdd = currentPolygonIds
-        .difference(prevPolygonIds)
-        .map(idToCurrentPolygon)
-        .toSet();
+    final Set<Polygon> _polygonsToAdd =
+        currentPolygonIds
+            .difference(prevPolygonIds)
+            .map(idToCurrentPolygon)
+            .toSet();
 
     bool hasChanged(Polygon current) {
       final Polygon previous = previousPolygons[current.id]!;
       return current != previous;
     }
 
-    final Set<Polygon> _polygonsToChange = currentPolygonIds
-        .intersection(prevPolygonIds)
-        .map(idToCurrentPolygon)
-        .where(hasChanged)
-        .toSet();
+    final Set<Polygon> _polygonsToChange =
+        currentPolygonIds
+            .intersection(prevPolygonIds)
+            .map(idToCurrentPolygon)
+            .where(hasChanged)
+            .toSet();
 
     polygonsToAdd = _polygonsToAdd;
     polygonIdsToRemove = _polygonIdsToRemove;
@@ -85,7 +88,7 @@ class PolygonUpdates {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    if (other is !PolygonUpdates) return false;
+    if (other is! PolygonUpdates) return false;
     final PolygonUpdates typedOther = other;
     return setEquals(polygonsToAdd, typedOther.polygonsToAdd) &&
         setEquals(polygonIdsToRemove, typedOther.polygonIdsToRemove) &&
@@ -94,7 +97,7 @@ class PolygonUpdates {
 
   @override
   int get hashCode =>
-      hashValues(polygonsToAdd, polygonIdsToRemove, polygonsToChange);
+      Object.hash(polygonsToAdd, polygonIdsToRemove, polygonsToChange);
 
   @override
   String toString() {

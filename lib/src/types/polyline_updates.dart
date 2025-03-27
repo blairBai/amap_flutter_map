@@ -33,24 +33,27 @@ class PolylineUpdates {
       return currentPolylines[id]!;
     }
 
-    final Set<String> _polylineIdsToRemove =
-        prevPolylineIds.difference(currentPolylineIds);
+    final Set<String> _polylineIdsToRemove = prevPolylineIds.difference(
+      currentPolylineIds,
+    );
 
-    final Set<Polyline> _polylinesToAdd = currentPolylineIds
-        .difference(prevPolylineIds)
-        .map(idToCurrentPolyline)
-        .toSet();
+    final Set<Polyline> _polylinesToAdd =
+        currentPolylineIds
+            .difference(prevPolylineIds)
+            .map(idToCurrentPolyline)
+            .toSet();
 
     bool hasChanged(Polyline current) {
       final Polyline previous = previousPolylines[current.id]!;
       return current != previous;
     }
 
-    final Set<Polyline> _polylinesToChange = currentPolylineIds
-        .intersection(prevPolylineIds)
-        .map(idToCurrentPolyline)
-        .where(hasChanged)
-        .toSet();
+    final Set<Polyline> _polylinesToChange =
+        currentPolylineIds
+            .intersection(prevPolylineIds)
+            .map(idToCurrentPolyline)
+            .where(hasChanged)
+            .toSet();
 
     polylinesToAdd = _polylinesToAdd;
     polylineIdsToRemove = _polylineIdsToRemove;
@@ -87,7 +90,7 @@ class PolylineUpdates {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    if (other is !PolylineUpdates) return false;
+    if (other is! PolylineUpdates) return false;
     final PolylineUpdates typedOther = other;
     return setEquals(polylinesToAdd, typedOther.polylinesToAdd) &&
         setEquals(polylineIdsToRemove, typedOther.polylineIdsToRemove) &&
@@ -96,7 +99,7 @@ class PolylineUpdates {
 
   @override
   int get hashCode =>
-      hashValues(polylinesToAdd, polylineIdsToRemove, polylinesToChange);
+      Object.hash(polylinesToAdd, polylineIdsToRemove, polylinesToChange);
 
   @override
   String toString() {

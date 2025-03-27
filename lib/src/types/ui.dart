@@ -63,8 +63,14 @@ class MinMaxZoomPreference {
   /// 缩放级别范围为[3, 20]，超出范围取边界值
   ///
   const MinMaxZoomPreference(double minZoom, double maxZoom)
-      : this.minZoom = ((minZoom < 3 ? 3 : minZoom) > (maxZoom > 20 ? 20 : maxZoom) ? maxZoom : minZoom),
-        this.maxZoom = ((minZoom < 3 ? 3 : minZoom) > (maxZoom > 20 ? 20 : maxZoom) ? minZoom : maxZoom);
+    : this.minZoom =
+          ((minZoom < 3 ? 3 : minZoom) > (maxZoom > 20 ? 20 : maxZoom)
+              ? maxZoom
+              : minZoom),
+      this.maxZoom =
+          ((minZoom < 3 ? 3 : minZoom) > (maxZoom > 20 ? 20 : maxZoom)
+              ? minZoom
+              : maxZoom);
 
   /// 最小zoomLevel
   final double? minZoom;
@@ -73,8 +79,10 @@ class MinMaxZoomPreference {
   final double? maxZoom;
 
   /// 高德地图默认zoomLevel的范围.
-  static const MinMaxZoomPreference defaultPreference =
-      MinMaxZoomPreference(3, 20);
+  static const MinMaxZoomPreference defaultPreference = MinMaxZoomPreference(
+    3,
+    20,
+  );
 
   /// JSON序列化.
   dynamic toJson() => <dynamic>[minZoom, maxZoom];
@@ -88,7 +96,7 @@ class MinMaxZoomPreference {
   }
 
   @override
-  int get hashCode => hashValues(minZoom, maxZoom);
+  int get hashCode => Object.hash(minZoom, maxZoom);
 
   @override
   String toString() {
@@ -165,7 +173,7 @@ class MyLocationStyleOptions {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (runtimeType != other.runtimeType) return false;
-    if (other is !MyLocationStyleOptions) return false;
+    if (other is! MyLocationStyleOptions) return false;
     final MyLocationStyleOptions typedOther = other;
     return enabled == typedOther.enabled &&
         circleFillColor == typedOther.circleFillColor &&
@@ -184,7 +192,7 @@ class MyLocationStyleOptions {
 
   @override
   int get hashCode =>
-      hashValues(enabled, circleFillColor, circleStrokeColor, icon);
+      Object.hash(enabled, circleFillColor, circleStrokeColor, icon);
 }
 
 ///地图自定义样式
@@ -198,11 +206,7 @@ class CustomStyleOptions {
   ///自定义扩展样式的二进制数据,对应下载的自定义地图文件中的style_extra.data中的二进制数据
   Uint8List? styleExtraData;
 
-  CustomStyleOptions(
-    this.enabled, {
-    this.styleData,
-    this.styleExtraData,
-  });
+  CustomStyleOptions(this.enabled, {this.styleData, this.styleExtraData});
 
   static CustomStyleOptions? fromMap(dynamic json) {
     if (json == null) {
@@ -233,7 +237,7 @@ class CustomStyleOptions {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (runtimeType != other.runtimeType) return false;
-    if (other is !CustomStyleOptions) return false;
+    if (other is! CustomStyleOptions) return false;
     final CustomStyleOptions typedOther = other;
     return enabled == typedOther.enabled &&
         styleData == typedOther.styleData &&
@@ -241,10 +245,13 @@ class CustomStyleOptions {
   }
 
   @override
-  int get hashCode => hashValues(enabled, styleData, styleExtraData);
+  int get hashCode => Object.hash(enabled, styleData, styleExtraData);
 
   CustomStyleOptions clone() {
-    return CustomStyleOptions(enabled,
-        styleData: styleData, styleExtraData: styleExtraData);
+    return CustomStyleOptions(
+      enabled,
+      styleData: styleData,
+      styleExtraData: styleExtraData,
+    );
   }
 }
