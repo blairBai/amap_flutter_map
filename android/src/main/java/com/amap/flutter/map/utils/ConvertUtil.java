@@ -30,7 +30,9 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-import io.flutter.view.FlutterMain;
+// import io.flutter.view.FlutterMain;
+
+import io.flutter.embedding.engine.loader.FlutterLoader;
 
 /**
  * @author whm
@@ -44,6 +46,18 @@ public class ConvertUtil {
 
     public static float density;
     private static String apiKey;
+
+    private static FlutterLoader flutterLoader;
+    private static Context applicationContext;
+
+    public static void initialize(Context context) {
+        applicationContext = context;
+        if (flutterLoader == null) {
+            flutterLoader = new FlutterLoader();
+            flutterLoader.startInitialization(applicationContext);
+            flutterLoader.ensureInitializationComplete(applicationContext, null);
+        }
+    }
 
     public static void setPrivacyStatement(Context context, Object object) {
         if (null == object) {
@@ -373,15 +387,15 @@ public class ConvertUtil {
             case "fromAsset":
                 if (data.size() == 2) {
                     return BitmapDescriptorFactory.fromAsset(
-                            FlutterMain.getLookupKeyForAsset(toString(data.get(1))));
+                            flutterLoader.getLookupKeyForAsset(toString(data.get(1))));
                 } else {
                     return BitmapDescriptorFactory.fromAsset(
-                            FlutterMain.getLookupKeyForAsset(toString(data.get(1)), toString(data.get(2))));
+                            flutterLoader.getLookupKeyForAsset(toString(data.get(1)), toString(data.get(2))));
                 }
             case "fromAssetImage":
                 if (data.size() == 3) {
                     return BitmapDescriptorFactory.fromAsset(
-                            FlutterMain.getLookupKeyForAsset(toString(data.get(1))));
+                            flutterLoader.getLookupKeyForAsset(toString(data.get(1))));
                 } else {
                     throw new IllegalArgumentException(
                             "'fromAssetImage' Expected exactly 3 arguments, got: " + data.size());
