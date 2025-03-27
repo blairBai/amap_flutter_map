@@ -19,7 +19,7 @@ dependencies:
 
   amap_flutter_base:
     git:
-      url: git@github.com:blairBai/amap_flutter_base.git
+      url: https://github.com/blairBai/amap_flutter_base.git
   # amap_flutter_base: ^3.0.0
 #  amap_flutter_base:
 #    path: ../amap_flutter_base
